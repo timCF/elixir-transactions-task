@@ -4,6 +4,7 @@ defmodule Transactions.Accounts.User do
   alias Transactions.Accounts.User
   alias Transactions.Operations.Operation
 
+  # why use binary_id instead uint64?
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "users" do

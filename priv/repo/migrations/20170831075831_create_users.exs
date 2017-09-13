@@ -8,6 +8,7 @@ defmodule Transactions.Repo.Migrations.CreateUsers do
       add :last_name, :string
       add :age, :integer
       add :email, :string
+      # it's nice to have unique_index index what contains some fields like email etc
 
       timestamps()
     end

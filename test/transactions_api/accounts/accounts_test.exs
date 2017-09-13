@@ -2,6 +2,8 @@ defmodule Transactions.AccountsTest do
   use Transactions.DataCase
 
   alias Transactions.Accounts
+  # it's nice to use ExMachina for test data
+  # not issue, just recommendation
 
   describe "users" do
     alias Transactions.Accounts.User
@@ -46,7 +48,7 @@ defmodule Transactions.AccountsTest do
       {:ok, _} = Accounts.delete_user(user)
       assert Accounts.get_active_user(user.id) == {:error, :no_user_found}
     end
-    
+
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
       assert user.age == @valid_attrs.age
@@ -98,18 +100,18 @@ defmodule Transactions.AccountsTest do
 
     test "user changeset can validate incorrect parameters" do
       user = user_fixture()
-      
+
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{age: ""})
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{age: 15})
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{age: 101})
-      
+
       long_name = String.duplicate("L", 101)
-      
+
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{first_name: long_name})
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{first_name: ""})
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{last_name: long_name})
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{last_name: ""})
-      
+
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{email: "some.incorrect.email"})
       assert %Ecto.Changeset{valid?: false} = User.changeset(user, %{email: ""})
     end

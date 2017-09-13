@@ -9,11 +9,12 @@ defmodule TransactionsWeb.Router do
     pipe_through :api
 
     resources "/users", UserController, except: [:new, :edit]
-    
+
     scope "/operations" do
       resources "/types", TypeController, only: [:index, :create, :show, :update]
-      
+
       get "/all/:user", OperationController, :index
+      # try to use only standard names for actions
       get "/all/:user/:type", OperationController, :index_by_type
       get "/:id", OperationController, :show
       post "/:user/:type", OperationController, :create

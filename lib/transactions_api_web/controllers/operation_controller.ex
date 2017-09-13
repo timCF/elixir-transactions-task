@@ -8,6 +8,8 @@ defmodule TransactionsWeb.OperationController do
   action_fallback TransactionsWeb.FallbackController
 
   def index(conn, %{"user" => user_id}) do
+    # user has_many operation, so operations can be preloaded using standard Ecto options
+    # directly to User model
     with {:ok, user} <- Accounts.get_active_user(user_id),
       user_operations <- Operations.list_user_operations(user),
       operations_total <- Operations.total(user_id),
@@ -22,7 +24,7 @@ defmodule TransactionsWeb.OperationController do
   end
 
   def create(conn, %{"operation" => operation_params, "type" => type_id, "user" => user_id}) do
-    params = 
+    params =
       Enum.into(operation_params, %{"type_id" => type_id, "user_id" => user_id})
 
     with {:ok, %Operation{} = operation} <- Operations.create_operation(params) do
